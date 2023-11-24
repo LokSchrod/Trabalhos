@@ -1,7 +1,7 @@
 def obter_digito_caracter(digito):
     if digito.isdigit():
         return int(digito)
-    elif 'A' <= digito.upper() <= 'F':
+    elif 'A' <= digito.upper() <= 'N':
         return ord(digito.upper()) - ord('A') + 10
     else:
         return None
@@ -45,17 +45,27 @@ def converter_base(num, base_origem, base_destino):
         print("Bases inválidas. Use 2, 8, 10, 16 ou 23.")
         return "Erro na conversão."
 
-    decimal = base_para_decimal(num, base_origem)
-
-    if decimal is not None:
-        if base_destino == 10:
-            resultado_final = str(decimal)
-        else:
-            resultado_final = decimal_para_base(decimal, base_destino)
-
+    if base_destino == 23:
+        # Converter de base origem para base 23
+        num_base23 = decimal_para_base(int(num), 23)
+        return num_base23
+    elif base_destino == 2:
+        # Converter de base origem para base decimal
+        decimal = base_para_decimal(num, base_origem)
+        # Em seguida, converter de base decimal para binário
+        resultado_final = decimal_para_base(decimal, 2)
         return resultado_final
+    else:
+        decimal = base_para_decimal(num, base_origem)
+        if decimal is not None:
+            if base_destino == 10:
+                resultado_final = str(decimal)
+            else:
+                resultado_final = decimal_para_base(decimal, base_destino)
+        else:
+            return "Erro na conversão."
 
-    return "Erro na conversão."
+    return resultado_final
 
 def main():
     while True:
